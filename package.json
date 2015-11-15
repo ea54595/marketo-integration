@@ -1,0 +1,23 @@
+{
+  "name": "marketo-integration",
+  "version": "0.1.0",
+  "description": "integration with marketo and sansan",
+  "main": "dist/app.js",
+  "scripts": {
+    "start": "node dist/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ea54595",
+  "license": "ISC",
+  "repository": "",
+  "devDependencies": {
+    "babel": "^6.1.18",
+    "babel-polyfill": "^6.1.19",
+    "babel-preset-es2015": "^6.1.18",
+    "co": "^4.6.0",
+    "gulp": "^3.9.0",
+    "gulp-babel": "^6.1.0",
+    "oauth": "^0.9.14",
+    "request": "^2.65.0"
+  }
+}
