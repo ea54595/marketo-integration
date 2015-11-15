@@ -1,4 +1,4 @@
-require('babel/polyfill');
+import 'babel-polyfill';
 
 var config = require('../config'),
   co = require('co'),
