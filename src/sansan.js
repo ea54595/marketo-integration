@@ -1,34 +1,38 @@
-var request = require('request'),
-  querystring = require('querystring'),
-  baseUrl = 'https://api.sansan.com/v1/',
-  bizcardsPath = 'bizCards';
+import request from 'request';
+import querystring from 'querystring';
+import dateFormat from 'dateformat';
 
-function Sansan (apiKey){
-  this._headers = {
-    'X-Sansan-Api-Key': apiKey
-  };
-};
+var baseUrl = 'https://api.sansan.com/v1/';
+var bizcardsPath = 'bizCards';
+var dateFormatTemplate = 'isoDateTime';
 
-Sansan.prototype.getBizcards = (registerdFrom, registerdTo, range, limit, offset) =>{
-  return new Promise(resolve =>{
-    var params = {
-      registerdTo: registerdTo,
-      registerdFrom: registerdFrom
+class Sansan {
+  constructor(apiKey){
+    this._headers = {
+      'X-Sansan-Api-Key': apiKey
     };
-    params.range = range || 'me';
-    params.limit = limit || 100;
-    params.offset = offset || 0;
+  }
+  getBizcards(registerdFrom, registerdTo, range = 'me', limit = 100, offset = 0) {
+    var params = {
+      registeredFrom: dateFormat(registerdFrom, dateFormatTemplate),
+      registeredTo: dateFormat(registerdTo, dateFormatTemplate),
+      range: range,
+      limit: limit,
+      offset: offset
+    };
 
-    request({
-      url: `${baseUrl}${bizcardsPath}${querystring.stringify()}`,
-      headers: this._headers
-    }, (error, res, body) => {
-      if (error){
-        console.log(error);
-      }
-      resolve(body);
+    return new Promise((resolve, reject) => {
+      request({
+        url: `${baseUrl}${bizcardsPath}?${querystring.stringify(params)}`,
+        headers: this._headers
+      }, (error, res, body) => {
+        if (error){
+          reject(error);
+        }
+        resolve(JSON.parse(body));
+      });
     });
-  });
+  }
 };
 
 module.exports = Sansan;
