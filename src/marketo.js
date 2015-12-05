@@ -1,7 +1,7 @@
 import querystring from 'querystring';
 import request from 'request';
 
-var apiVersion = 'v1';
+const apiVersion = 'v1';
 
 class Marketo {
   constructor(restEndPoint, identityEndPoint, clientId, clientSeacret) {
@@ -57,7 +57,6 @@ class Marketo {
           reject(err);
           return;
         }
-        console.log(res.body);
         resolve(body);
       });
     });

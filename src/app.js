@@ -22,16 +22,33 @@ var sansan = new Sansan(config.sansanApiKey);
     if (bizCards.hasMore) continue;
     break;
   }
-
   let leads = [];
-  leadCandidates.forEach((bizCard)=>{
+  leadCandidates.forEach((bizCard) => {
+    if (bizCard.lastName) return;
+
     leads.push({
+      bizCardid__c: bizCard.id,
       lastName: bizCard.lastName,
       firstName: bizCard.firstName,
-      email: bizCard.email
+      email: bizCard.email,
+      company: bizCard.companyName,
+      division__c: bizCard.departmentName,
+      title: bizCard.title,
+      phone: bizCard.tel,
+      mobilePhone: bizCard.mobile,
+      fax: bizCard.fax,
+      postalCode: bizCard.postalCode,
+      state: bizCard.prefecture,
+      city: bizCard.city,
+      location__c: bizCard.street + bizCard.building,
+      website: bizCard.url,
+      exchengedDate__c: bizCard.exchangeDate,
+      insideSales__c: bizCard.owner.name
     });
   });
 
-  let createdResult = await marketo.createLeads(leads);
-  console.log(createdResult);
+  let responce = await marketo.createLeads(leads);
+  responce.result.forEach((res) => {
+    console.log(`status: ${res.status}`);
+  });
 })();
